@@ -9,5 +9,11 @@
     },
     "build": {
         "command": "npm install && cd web && npm install && npm run build"
-    }
+    },
+    "kv_namespaces": [
+        {
+            "binding": "data",
+            "id": "aef3eafc393a44c396c292b53b0294e8"
+        }
+    ]
 }
