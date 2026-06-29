@@ -3,6 +3,7 @@ document.title = '邮箱客户端'
 
 import AccountManager from '@/components/AccountManager.vue'
 import AccountSelector from '@/components/AccountSelector.vue'
+import MailFolderSelector from '@/components/MailFolderSelector.vue'
 import { useAccountStore } from '@/store.js'
 import { UserFilled } from '@element-plus/icons-vue'
 import axios from 'axios'
@@ -49,7 +50,9 @@ const doLogout = async () => {
                 </template>
             </el-dropdown>
         </div>
-        <div v-if="accountStore.account !== ''" class="flex-1"></div>
+        <div v-if="accountStore.account !== ''" class="main-view flex-1">
+            <MailFolderSelector />
+        </div>
     </div>
 </template>
 
@@ -69,5 +72,11 @@ const doLogout = async () => {
 .top-bar {
     display: flex;
     align-items: center;
+}
+
+.main-view {
+    min-height: 0;
+    display: flex;
+    column-gap: 10px;
 }
 </style>
