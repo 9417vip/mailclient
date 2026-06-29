@@ -32,6 +32,50 @@ mail.use(async (req, res, next) => {
         username: account,
         password: config.password
     }
+
+    try {
+        const imapClient = new CFImap({
+            host: config.imapServer,
+            port: config.imapPort,
+            tls: config.imapPort === 993,
+            auth: authCredentials
+        })
+
+        await imapClient.connect()
+        req.imapClient = imapClient
+
+        res.on('finish', imapClient.logout)
+        res.on('close', imapClient.logout)
+    } catch (error) {
+        console.error(error)
+        return res.status(400).send('无法连接至 IMAP 服务器')
+    }
+
+    try {
+        const smtpClient = await WorkerMailer.connect({
+            host: config.smtpServer,
+            port: config.smtpPort,
+            secure: true,
+            credentials: authCredentials
+        })
+
+        req.smtpClient = smtpClient
+
+        res.on('finish', smtpClient.close)
+        res.on('close', smtpClient.close)
+    } catch (error) {
+        console.error(error)
+        return res.status(400).send('无法连接至 SMTP 服务器')
+    }
+
+    return next()
+})
+
+mail.get('/test', async (req, res) => {
+    if (typeof req.emalAccount === 'undefined') return res.status(500).send('账号信息错误')
+    if (typeof req.imapClient === 'undefined') return res.status(500).send('IMAP 连接错误')
+    if (typeof req.smtpClient === 'undefined') return res.status(500).send('SMTP 连接错误')
+    return res.status(200).send('账号正常')
 })
 
 export default mail
