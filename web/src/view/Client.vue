@@ -1,12 +1,16 @@
 <script setup>
 document.title = '邮箱客户端'
 
+import AccountManager from '@/components/AccountManager.vue'
+import AccountSelector from '@/components/AccountSelector.vue'
+import { useAccountStore } from '@/store.js'
 import { UserFilled } from '@element-plus/icons-vue'
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
+const accountStore = useAccountStore()
 const router = useRouter()
 const loading = ref(false)
 
@@ -29,11 +33,16 @@ const doLogout = async () => {
     <div class="container">
         <div class="top-bar">
             <div class="flex-1" />
-            <el-dropdown trigger="click" :show-arrow="false">
-                <el-icon><UserFilled /></el-icon>
+            <el-dropdown trigger="click" :show-arrow="false" :hide-on-click="false">
+                <el-text>
+                    {{ accountStore.account }}
+                    <el-icon><UserFilled /></el-icon>
+                </el-text>
                 <template #dropdown>
                     <el-dropdown-menu>
-                        <el-dropdown-item>
+                        <AccountSelector />
+                        <AccountManager />
+                        <el-dropdown-item divided>
                             <el-button type="warning" :loading="loading" @click="doLogout" link>退出登录</el-button>
                         </el-dropdown-item>
                     </el-dropdown-menu>
