@@ -6,9 +6,11 @@
         "dev": "wrangler dev"
     },
     "dependencies": {
+        "cf-imap": "^0.0.12",
         "cookie-parser": "^1.4.7",
         "express": "^5.2.1",
-        "jsonwebtoken": "^9.0.3"
+        "jsonwebtoken": "^9.0.3",
+        "worker-mailer": "^1.2.1"
     },
     "devDependencies": {
         "wrangler": "^4.97.0"
