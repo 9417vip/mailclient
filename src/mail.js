@@ -55,7 +55,7 @@ mail.use(async (req, res, next) => {
         const smtpClient = await WorkerMailer.connect({
             host: config.smtpServer,
             port: config.smtpPort,
-            secure: true,
+            secure: config.smtpPort === 465,
             credentials: authCredentials,
             authType: ['plain', 'login', 'cram-md5']
         })
