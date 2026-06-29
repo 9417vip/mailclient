@@ -72,9 +72,6 @@ mail.use(async (req, res, next) => {
 })
 
 mail.get('/test', async (req, res) => {
-    if (typeof req.emalAccount === 'undefined') return res.status(500).send('账号信息错误')
-    if (typeof req.imapClient === 'undefined') return res.status(500).send('IMAP 连接错误')
-    if (typeof req.smtpClient === 'undefined') return res.status(500).send('SMTP 连接错误')
     return res.status(200).send('账号正常')
 })
 
