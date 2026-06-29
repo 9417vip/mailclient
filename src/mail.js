@@ -56,7 +56,8 @@ mail.use(async (req, res, next) => {
             host: config.smtpServer,
             port: config.smtpPort,
             secure: true,
-            credentials: authCredentials
+            credentials: authCredentials,
+            authType: ['plain', 'login', 'cram-md5']
         })
 
         req.smtpClient = smtpClient
