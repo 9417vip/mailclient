@@ -4,7 +4,8 @@ document.title = '邮箱客户端'
 import AccountManager from '@/components/AccountManager.vue'
 import AccountSelector from '@/components/AccountSelector.vue'
 import MailFolderSelector from '@/components/MailFolderSelector.vue'
-import { useAccountStore } from '@/store.js'
+import MailSelector from '@/components/MailSelector.vue'
+import { useAccountStore, useMailboxStore } from '@/store.js'
 import { UserFilled } from '@element-plus/icons-vue'
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
@@ -12,6 +13,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const accountStore = useAccountStore()
+const mailboxStore = useMailboxStore()
 const router = useRouter()
 const loading = ref(false)
 
@@ -52,6 +54,7 @@ const doLogout = async () => {
         </div>
         <div v-if="accountStore.account !== ''" class="main-view flex-1">
             <MailFolderSelector />
+            <MailSelector v-if="mailboxStore.folder !== ''" />
         </div>
     </div>
 </template>

@@ -3,7 +3,7 @@ import { useAccountStore, useMailboxStore } from '@/store'
 import { Refresh } from '@element-plus/icons-vue'
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
-import { watch, ref } from 'vue'
+import { watch, ref, onMounted } from 'vue'
 
 const loading = ref(false)
 const accountStore = useAccountStore()
@@ -26,6 +26,7 @@ watch(
     () => accountStore.account,
     account => {
         if (account === '') return
+        mailboxStore.folder = ''
         fetchFolders()
     },
     { immediate: true }
