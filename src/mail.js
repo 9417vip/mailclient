@@ -100,7 +100,8 @@ mail.get('/count', async (req, res) => {
         return res.status(400).send('无法连接 IMAP 服务器')
     }
 
-    const { emails: totalMails } = await req.imapClient.selectFolder(utf7.imap.encode(folder))
+    const realFolder = utf7.imap.encode(folder)
+    const { emails: totalMails } = await req.imapClient.selectFolder(realFolder)
     const totalPages = Math.ceil(totalMails / mailPerPage)
     return res.status(200).json({ totalPages })
 })
