@@ -3,7 +3,7 @@ import { useAccountStore, useMailboxStore } from '@/store.js'
 import { Refresh } from '@element-plus/icons-vue'
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
-import { watch, ref, onMounted } from 'vue'
+import { watch, ref } from 'vue'
 
 const loading = ref(false)
 const accountStore = useAccountStore()
@@ -40,7 +40,7 @@ watch(
             <el-scrollbar>
                 <div class="folders">
                     <el-button v-for="folder in folders" @click="mailboxStore.folder = folder" link>
-                        <el-text size="large">{{ folder }}</el-text>
+                        <el-text :tag="folder === mailboxStore.folder ? 'ins' : 'span'" size="large">{{ folder }}</el-text>
                     </el-button>
                 </div>
             </el-scrollbar>
