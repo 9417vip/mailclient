@@ -37,7 +37,7 @@ watch(
 
         {
             const parser = new DOMParser()
-            const doc = parser.parseFromString(htmlString, 'text/html')
+            const doc = parser.parseFromString(content, 'text/html')
             const elements = doc.querySelectorAll('[style]')
 
             elements.forEach(el => {
