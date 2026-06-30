@@ -145,7 +145,7 @@ mail.get('/content', async (req, res) => {
 
     const page = parseInt(rawPage, 10)
     const id = parseInt(rawId, 10)
-    if (isNaN(page) || page < 1 || isNaN(id) || id < 1) {
+    if (isNaN(page) || page < 1 || isNaN(id) || id < 1 || id > mailPerPage) {
         return res.status(400).send('参数错误')
     }
 
@@ -156,12 +156,13 @@ mail.get('/content', async (req, res) => {
     }
 
     const { emails: totalMails } = await req.imapClient.selectFolder(folder)
-    if (id > totalMails) {
+    const realId = (page - 1) * mailPerPage + id
+    if (realId > totalMails) {
         return res.status(404).send('邮件未找到')
     }
 
     const result = await req.imapClient.fetchEmails({
-        limit: [id, id],
+        limit: [realId, realId],
         folder: folder,
         fetchBody: true
     })
