@@ -140,4 +140,8 @@ watch(
     font-family: inherit;
     color: inherit;
 }
+
+.mail-body :deep(a) {
+    color: #8b8bff !important;
+}
 </style>
