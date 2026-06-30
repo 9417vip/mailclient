@@ -4,6 +4,7 @@ import { ref, watch } from 'vue'
 import { Refresh } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import axios from 'axios'
+import MailCard from '@/components/MailCard.vue'
 
 const loading = ref(false)
 const totalPages = ref(0)
@@ -37,9 +38,14 @@ const fetchMails = async () => {
 }
 
 const refresh = async () => {
+    mails.value = []
     await fetchCount()
     if (totalPages.value < 1) return
     await fetchMails()
+}
+
+const onMailClick = async idx => {
+    console.log(idx)
 }
 
 watch(
@@ -54,6 +60,7 @@ watch(
     () => mailboxStore.folder,
     folder => {
         if (folder === '') return
+        currentPage.value = 1
         refresh()
     },
     { immediate: true }
@@ -68,7 +75,9 @@ watch(
         </div>
         <div class="flex-1">
             <el-scrollbar>
-                <div class="mails"></div>
+                <div class="mails">
+                    <MailCard :mails="mails" @click="onMailClick" />
+                </div>
             </el-scrollbar>
         </div>
     </div>
