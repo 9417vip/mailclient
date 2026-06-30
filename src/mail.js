@@ -100,7 +100,8 @@ mail.get('/count', async (req, res) => {
         return res.status(400).send('无法连接 IMAP 服务器')
     }
 
-    const { emails: totalMails } = await req.imapClient.selectFolder(folder)
+    const realFolder = utf7.imap.encode(folder).replace(/^"|"$/g, '')
+    const { emails: totalMails } = await req.imapClient.selectFolder(realFolder)
     const totalPages = Math.ceil(totalMails / mailPerPage)
     return res.status(200).json({ totalPages })
 })
@@ -122,7 +123,8 @@ mail.get('/list', async (req, res) => {
         return res.status(400).send('无法连接 IMAP 服务器')
     }
 
-    const { emails: totalMails } = await req.imapClient.selectFolder(folder)
+    const realFolder = utf7.imap.encode(folder).replace(/^"|"$/g, '')
+    const { emails: totalMails } = await req.imapClient.selectFolder(realFolder)
     const mailStart = (page - 1) * mailPerPage + 1
     const mailEnd = Math.min(page * mailPerPage, totalMails)
 
@@ -132,7 +134,7 @@ mail.get('/list', async (req, res) => {
 
     const result = await req.imapClient.fetchEmails({
         limit: [mailStart, mailEnd],
-        folder: folder,
+        folder: realFolder,
         fetchBody: false
     })
 
@@ -157,7 +159,8 @@ mail.get('/content', async (req, res) => {
         return res.status(400).send('无法连接 IMAP 服务器')
     }
 
-    const { emails: totalMails } = await req.imapClient.selectFolder(folder)
+    const realFolder = utf7.imap.encode(folder).replace(/^"|"$/g, '')
+    const { emails: totalMails } = await req.imapClient.selectFolder(realFolder)
     const realId = (page - 1) * mailPerPage + id
     if (realId > totalMails) {
         return res.status(404).send('邮件未找到')
@@ -165,7 +168,7 @@ mail.get('/content', async (req, res) => {
 
     const result = await req.imapClient.fetchEmails({
         limit: [realId, realId],
-        folder: folder,
+        folder: realFolder,
         fetchBody: true
     })
 
