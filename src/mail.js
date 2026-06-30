@@ -134,7 +134,7 @@ mail.get('/list', async (req, res) => {
         fetchBody: false
     })
 
-    return res.status(200).json(result)
+    return res.status(200).json(result.filter(item => item.messageID))
 })
 
 mail.get('/content', async (req, res) => {
@@ -167,7 +167,7 @@ mail.get('/content', async (req, res) => {
         fetchBody: true
     })
 
-    return res.status(200).json(result[0])
+    return res.status(200).json(result.filter(item => item.messageID)[0])
 })
 
 export default mail
