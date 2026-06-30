@@ -137,4 +137,36 @@ mail.get('/list', async (req, res) => {
     return res.status(200).json(result)
 })
 
+mail.get('/content', async (req, res) => {
+    const { folder, page: rawPage, id: rawId } = req.query
+    if (typeof folder !== 'string' || folder === '' || typeof rawPage !== 'string' || rawPage === '' || typeof rawId !== 'string' || rawId === '') {
+        return res.status(400).send('请求错误')
+    }
+
+    const page = parseInt(rawPage, 10)
+    const id = parseInt(rawId, 10)
+    if (isNaN(page) || page < 1 || isNaN(id) || id < 1) {
+        return res.status(400).send('参数错误')
+    }
+
+    try {
+        await req.connectImapServer()
+    } catch {
+        return res.status(400).send('无法连接 IMAP 服务器')
+    }
+
+    const { emails: totalMails } = await req.imapClient.selectFolder(folder)
+    if (id > totalMails) {
+        return res.status(404).send('邮件未找到')
+    }
+
+    const result = await req.imapClient.fetchEmails({
+        limit: [id, id],
+        folder: folder,
+        fetchBody: true
+    })
+
+    return res.status(200).json(result[0])
+})
+
 export default mail
