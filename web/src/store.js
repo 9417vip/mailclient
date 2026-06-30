@@ -21,10 +21,7 @@ export const useMailboxStore = defineStore('mailbox', () => {
         from: '',
         to: '',
         subject: '',
-        messageID: '',
-        contentType: '',
         date: '',
-        raw: '',
         body: ''
     })
 
@@ -33,10 +30,7 @@ export const useMailboxStore = defineStore('mailbox', () => {
             from: '',
             to: '',
             subject: '',
-            messageID: '',
-            contentType: '',
             date: '',
-            raw: '',
             body: ''
         })
     }

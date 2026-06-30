@@ -25,11 +25,11 @@ const emits = defineEmits(['click'])
 <style scoped>
 .mail-card {
     padding: 16px;
-    background: rgba(30, 30, 30, 0.65);
+    background: #1e1e1ea6;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
 
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid #ffffff14;
 
     cursor: pointer;
     transition: all 0.2s ease;
@@ -39,7 +39,7 @@ const emits = defineEmits(['click'])
 }
 
 .mail-card:hover {
-    background: rgba(45, 45, 45, 0.8);
+    background: #2d2d2dcc;
 }
 
 .mail-header {
