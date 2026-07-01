@@ -5,6 +5,7 @@ import AccountManager from '@/components/AccountManager.vue'
 import AccountSelector from '@/components/AccountSelector.vue'
 import MailFolderSelector from '@/components/MailFolderSelector.vue'
 import MailSelector from '@/components/MailSelector.vue'
+import MailSender from '@/components/MailSender.vue'
 import MailViewer from '@/components/MailViewer.vue'
 import { useAccountStore, useMailboxStore } from '@/store.js'
 import { UserFilled } from '@element-plus/icons-vue'
@@ -36,6 +37,7 @@ const doLogout = async () => {
 <template>
     <div class="container">
         <div class="top-bar">
+            <MailSender v-if="accountStore.account !== ''" />
             <div class="flex-1" />
             <el-dropdown trigger="click" :show-arrow="false" :hide-on-click="false">
                 <el-text>
