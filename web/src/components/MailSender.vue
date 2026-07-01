@@ -4,10 +4,14 @@ import { computed, reactive, ref } from 'vue'
 import { MdEditor } from 'md-editor-v3'
 import 'md-editor-v3/lib/style.css'
 import { marked } from 'marked'
+import { ElMessage } from 'element-plus'
+import axios from 'axios'
+import { useAccountStore } from '@/store.js'
 
 const loading = ref(false)
 const showEditor = ref(false)
 const rawContent = ref('')
+const accountStore = useAccountStore()
 
 const formData = reactive({
     to: '',
@@ -28,7 +32,17 @@ const openEditor = () => {
 }
 
 const sendMail = async () => {
-    console.log(JSON.parse(JSON.stringify(formData)))
+    try {
+        loading.value = true
+        const res = await axios.post(`/api/mail/send?account=${accountStore.account}`, formData)
+
+        ElMessage.success(res.data)
+        showEditor.value = false
+    } catch (error) {
+        ElMessage.error(error.response.data)
+    } finally {
+        loading.value = false
+    }
 }
 </script>
 
